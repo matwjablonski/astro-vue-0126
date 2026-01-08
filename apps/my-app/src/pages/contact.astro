@@ -1,0 +1,51 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const contactInfo = [
+    { type: 'Email', value: 'mail@mateuszjablonski.com' },
+    { type: 'Phone', value: '+48 123 456 789' },
+    { type: 'Address', value: '123 Astro St, Web City, Internet' }
+];
+
+const hours = {
+    open: 9,
+    close: 17,
+};
+const openDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+const currentDay = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+const currentHour = new Date().getHours();
+
+const isOpen = openDays.includes(currentDay) && currentHour >= hours.open && currentHour < hours.close;
+
+function calculateHoursToChangeState() {
+    const nextDay = new Date(Date.now() + 24 * 60 * 60 * 1000).toLocaleString('en-US', { weekday: 'long' })
+    const isNextDayOpen = openDays.includes(nextDay);
+
+    if (!isNextDayOpen && currentHour >= hours.close) {
+        return (24 - currentHour) + (24 + hours.open);
+    }
+
+    if (isOpen) {
+        return hours.close - currentHour;
+    } else {
+        if (currentHour < hours.open) {
+            return hours.open - currentHour;
+        } else {
+            return (24 - currentHour) + hours.open;
+        }
+    }
+}
+
+const hoursToChangeState = calculateHoursToChangeState();
+---
+<Layout>
+    <h1>Contact Us</h1>
+    <ul>
+        {contactInfo.map(({ type, value}) => (
+            <li>{type}: {value}</li>
+        ))}
+    </ul>
+    <strong>{isOpen ? "We are open!" : "Sorry, we are closed."}</strong>
+    <p>Our working hours are from {hours.open}:00 to {hours.close}:00, Monday to Friday.</p>
+    <p>We will be {isOpen ? "closing" : "opening"} in {hoursToChangeState} hour(s).</p>
+</Layout>
