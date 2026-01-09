@@ -1,0 +1,29 @@
+---
+import Title from './Title.astro';
+
+    interface Props {
+        title: string;
+        date: string;
+        excerpt?: string;
+        author?: string;
+    }
+
+    const isUserLoggedIn = false;
+    const isBookmarked = true;
+    const { title, date, excerpt = "", author = "Anonymous" } = Astro.props;
+
+---
+
+<article>
+    <Title title={title} />
+    <p><em>{Astro.props.date}</em></p>
+    <p>{Astro.props.excerpt}</p>
+    <p><strong>Author:</strong> {Astro.props.author}</p>
+    {isUserLoggedIn ? (
+        <button>{isBookmarked ? "Remove Bookmark" : "Bookmark Article"}</button>
+    ) : (
+        <p><em>Log in to bookmark this article.</em></p>
+    )}
+
+    <slot />
+</article>

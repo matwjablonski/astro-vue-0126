@@ -10,6 +10,7 @@ const blog = defineCollection({
         draft: z.boolean().optional(),
         highlighted: z.boolean().optional(),
         layout: z.enum(['default', 'blog']).optional().default('blog'),
+        tags: z.array(z.string()).optional().default([]),
     })
 });
 
