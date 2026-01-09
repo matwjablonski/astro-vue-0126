@@ -1,4 +1,5 @@
 ---
+import { GetStaticPaths } from "astro";
 import { getCollection, getEntry } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import BlogLayout from "../../layouts/BlogLayout.astro";
@@ -25,7 +26,12 @@ if (!entry) {
 
 const { Content } = await entry.render();
 
-const LayoutComponent = entry.data.layout === 'blog' ? BlogLayout : Layout;
+const LAYOUTS = {
+  blog: BlogLayout,
+  default: Layout,
+} as const;
+
+const LayoutComponent = LAYOUTS[entry.data.layout];
 ---
 
 <LayoutComponent>

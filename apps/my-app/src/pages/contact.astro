@@ -1,5 +1,8 @@
 ---
+import NewsletterSection from "../components/NewsletterSection.astro";
 import Layout from "../layouts/Layout.astro";
+import JavascriptIsland from "../components/JavascriptIsland.js";
+import Result from "../components/Result.astro";
 
 const contactInfo = [
     { type: 'Email', value: 'mail@mateuszjablonski.com' },
@@ -48,4 +51,5 @@ const hoursToChangeState = calculateHoursToChangeState();
     <strong>{isOpen ? "We are open!" : "Sorry, we are closed."}</strong>
     <p>Our working hours are from {hours.open}:00 to {hours.close}:00, Monday to Friday.</p>
     <p>We will be {isOpen ? "closing" : "opening"} in {hoursToChangeState} hour(s).</p>
+    <NewsletterSection />
 </Layout>
