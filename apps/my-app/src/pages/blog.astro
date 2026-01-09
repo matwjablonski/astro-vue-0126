@@ -1,16 +1,27 @@
 ---
 import { getCollection } from "astro:content"
-
+import { late } from "astro:schema"
+import Layout from "../layouts/Layout.astro";
+import ArticleCard from "../components/ArticleCard.astro";
 
 const blogPosts = await getCollection('blog')
-console.log(blogPosts);
----
 
-<h1>Blog Posts</h1>
-<ul>
-    {blogPosts.map(post => (
-        <li>
-            <a href={`/blog/${post.slug}`}>{post.data.title}</a> - <em>{post.data.date}</em>
-        </li>
-    ))}
-</ul>
+blogPosts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+blogPosts.splice(3);
+
+---
+<Layout>
+    <h1>Blog Posts</h1>
+    <ul>
+        {blogPosts.map(post => (
+            <li>
+               <ArticleCard title={post.data.title} highlight={post.data.highlighted}>
+                    <p>{post.data.description}</p>
+                    <div slot="highlight">
+                        {post.data.highlighted && <strong>Highlighted!</strong>}
+                    </div>
+               </ArticleCard>
+            </li>
+        ))}
+    </ul>
+</Layout>

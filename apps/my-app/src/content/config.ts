@@ -6,7 +6,10 @@ const blog = defineCollection({
     schema: z.object({
         title: z.string(),
         date: z.string(),
-        draft: z.boolean().optional()
+        description: z.string().optional(),
+        draft: z.boolean().optional(),
+        highlighted: z.boolean().optional(),
+        layout: z.enum(['default', 'blog']).optional().default('blog'),
     })
 });
 
